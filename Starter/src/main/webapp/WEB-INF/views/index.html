@@ -5,6 +5,12 @@
     <title>Home</title>
 </head>
 <body>
-    <h1 th:text="${name}"></h1>
+    <div th:each="patient : ${patients}">
+        <h1 th:text="${patient.id}"></h1>
+        <h1 th:text="${patient.name}"></h1>
+    </div>
+
+<img src="https://st.depositphotos.com/2547675/3009/i/450/depositphotos_30094505-stock-photo-time-clock.jpg">
+
 </body>
 </html>
