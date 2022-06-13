@@ -26,7 +26,7 @@ public class HomePageController {
     }
 
     @GetMapping("/{id}")
-    public String getHomePageWithParam(Model model, @PathVariable int id ){
+    public String getHomePageWithParam(Model model, @PathVariable(value = "id") int id ){
         model.addAttribute("patients",patient.load());
         System.out.println(id);
         return "redirect:/home";

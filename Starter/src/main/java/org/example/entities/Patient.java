@@ -1,6 +1,6 @@
 package org.example.entities;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,13 +15,10 @@ public class Patient {
     private int id;
     private String name;
 
-
     public Patient(int id, String name) {
         this.id = id;
         this.name = name;
     }
-
-
 
     public List<Patient> load(){
         List<Patient> patients = new ArrayList<>();
