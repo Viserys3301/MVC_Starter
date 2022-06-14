@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -29,6 +30,11 @@ public class HomePageController {
     public String getHomePageWithParam(Model model, @PathVariable(value = "id") int id ){
         model.addAttribute("patients",patient.load());
         System.out.println(id);
-        return "redirect:/home";
+        return "start";
+    }
+
+    @PostMapping("/start")
+    public String start(Patient patient){
+        return "start";
     }
 }
