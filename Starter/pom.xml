@@ -82,10 +82,6 @@
       <version>9.2.0.jre8</version>
     </dependency>
 
-    <dependency>
-      <groupId></groupId>
-      <artifactId></artifactId>
-    </dependency>
   </dependencies>
 
   <build>
