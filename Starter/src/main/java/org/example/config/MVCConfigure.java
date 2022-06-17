@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -17,7 +19,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @Configuration
 @ComponentScan("org.example")
 @EnableWebMvc
-public class MVCConfigure {
+public class MVCConfigure implements WebMvcConfigurer {
 
     ApplicationContext context;
 
@@ -35,6 +37,7 @@ public class MVCConfigure {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngine(htmlTemplateResolver()));
         resolver.setContentType("text/html");
+        resolver.setForceContentType(true);
         resolver.setCharacterEncoding("UTF-8");
         resolver.setViewNames(new String[]{"*"});
         return  resolver;
@@ -42,6 +45,7 @@ public class MVCConfigure {
 
     public ITemplateResolver htmlTemplateResolver(){
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+        templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setApplicationContext(context);
         templateResolver.setPrefix("/WEB-INF/views/");
         templateResolver.setSuffix(".html");
@@ -56,4 +60,5 @@ public class MVCConfigure {
         templateEngine.setEnableSpringELCompiler(true);
         return  templateEngine;
     }
+
 }

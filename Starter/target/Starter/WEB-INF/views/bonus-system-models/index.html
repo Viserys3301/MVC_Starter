@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .btn{
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div >
+
+        <h1>Пациенты программы лояльности</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Имя</th>
+                <th scope="col">BizBox ID</th>
+                <th scope="col">Уровень</th>
+                <th scope="col">Накопленная сумма</th>
+                <th scope="col">Дата создания</th>
+                <th scope="col">Дата обновления</th>
+                <th scope="col">Активный</th>
+                <th scope="col"></th>
+                <th scope="col"><a class="btn btn-success" th:href="@{/bonus_system/new}" role="button">Добавить</a></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="patient : ${bonusPatients}">
+                <th scope="row" th:text="${patient.id}"></th>
+                <th scope="row"  th:text="${patient.name}"></th>
+                <th scope="row"  th:text="${patient.bizboxId}"></th>
+                <th scope="row"  th:text="${patient.bonusDiscount.description}"></th>
+                <th scope="row"  th:text="${patient.sum}"></th>
+                <th scope="row"  th:text="${patient.dateTImeCreate}"></th>
+                <th scope="row"  th:text="${patient.dateTImeUpdate}"></th>
+                <th scope="row"  th:text="${patient.isActive}"></th>
+                <td> <a class="btn btn-danger" th:href="@{/bonus_system/delete/{id} (id = ${patient.id})}" role="button">Удалить</a>
+                    <a class="btn btn-warning" th:href="@{/bonus_system/{id} (id = ${patient.id})}" role="button">Изменить</a>
+                    <a class="btn btn-secondary" th:href="@{/bonus_system/decline/{id} (id = ${patient.id})}" role="button">Отключить</a>
+                    <a class="btn btn-success" th:href="@{/bonus_system/include/{id} (id = ${patient.id})}" role="button">Включить</a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
