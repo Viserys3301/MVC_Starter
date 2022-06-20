@@ -26,7 +26,7 @@
                 <th scope="col">Дата обновления</th>
                 <th scope="col">Активный</th>
                 <th scope="col"></th>
-                <th scope="col"><a class="btn btn-success" th:href="@{/bonus_system/new}" role="button">Добавить</a></th>
+                <th scope="col"><a class="btn btn-success" th:href="@{/bonus_system/patient/new}" role="button">Добавить</a></th>
             </tr>
             </thead>
             <tbody>
@@ -39,10 +39,10 @@
                 <th scope="row"  th:text="${patient.dateTImeCreate}"></th>
                 <th scope="row"  th:text="${patient.dateTImeUpdate}"></th>
                 <th scope="row"  th:text="${patient.isActive}"></th>
-                <td> <a class="btn btn-danger" th:href="@{/bonus_system/delete/{id} (id = ${patient.id})}" role="button">Удалить</a>
-                    <a class="btn btn-warning" th:href="@{/bonus_system/{id} (id = ${patient.id})}" role="button">Изменить</a>
-                    <a class="btn btn-secondary" th:href="@{/bonus_system/decline/{id} (id = ${patient.id})}" role="button">Отключить</a>
-                    <a class="btn btn-success" th:href="@{/bonus_system/include/{id} (id = ${patient.id})}" role="button">Включить</a>
+                <td> <a class="btn btn-danger" th:href="@{/bonus_system/patient/delete/{id} (id = ${patient.id})}" role="button">Удалить</a>
+                    <a class="btn btn-warning" th:href="@{/bonus_system/patient/{id} (id = ${patient.id})}" role="button">Изменить</a>
+                    <a class="btn btn-secondary" th:href="@{/bonus_system/patient/decline/{id} (id = ${patient.id})}" role="button">Отключить</a>
+                    <a class="btn btn-success" th:href="@{/bonus_system/patient/include/{id} (id = ${patient.id})}" role="button">Включить</a>
                 </td>
             </tr>
             </tbody>

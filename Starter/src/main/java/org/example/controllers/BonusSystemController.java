@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/bonus_system")
+@RequestMapping("/bonus_system/patient")
 public class BonusSystemController {
 
     BonusPatientDAO bonusPatientDAO;
@@ -37,23 +37,23 @@ public class BonusSystemController {
     @PostMapping("/update_patient")
     public String update(BonusPatient bPatient){
         bonusPatientDAO.update(bPatient);
-        return "redirect:/bonus_system";
+        return "redirect:/bonus_system/patient";
     }
 
     @GetMapping("/delete/{id}")
     public String deleted(@PathVariable(value = "id") Long id){
         bonusPatientDAO.delete(id);
-        return "redirect:/bonus_system";
+        return "redirect:/bonus_system/patient";
     }
     @GetMapping("/decline/{id}")
     public String decline(@PathVariable(value = "id") Long id){
         bonusPatientDAO.decline(id);
-        return "redirect:/bonus_system";
+        return "redirect:/bonus_system/patient";
     }
     @GetMapping("/include/{id}")
     public String include(@PathVariable(value = "id") Long id){
         bonusPatientDAO.include(id);
-        return "redirect:/bonus_system";
+        return "redirect:/bonus_system/patient";
     }
 
     @GetMapping("/new")
@@ -65,6 +65,6 @@ public class BonusSystemController {
     @PostMapping("/new_patient")
     public String saveNewPatient(BonusPatient bPatient){
         bonusPatientDAO.add(bPatient);
-        return "redirect:/bonus_system";
+        return "redirect:/bonus_system/patient";
     }
 }

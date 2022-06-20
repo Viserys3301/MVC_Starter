@@ -133,4 +133,7 @@ public class BonusPatientDAO {
         patient.setIsActive(true);
         session.getTransaction().commit();
     }
+
+
+
 }

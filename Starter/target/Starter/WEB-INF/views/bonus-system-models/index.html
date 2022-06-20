@@ -13,9 +13,7 @@
 </head>
 <body>
     <div >
-
         <h1>Пациенты программы лояльности</h1>
-
         <table class="table">
             <thead>
             <tr>
@@ -46,11 +44,9 @@
                     <a class="btn btn-secondary" th:href="@{/bonus_system/decline/{id} (id = ${patient.id})}" role="button">Отключить</a>
                     <a class="btn btn-success" th:href="@{/bonus_system/include/{id} (id = ${patient.id})}" role="button">Включить</a>
                 </td>
-
             </tr>
             </tbody>
         </table>
     </div>
-
 </body>
 </html>
