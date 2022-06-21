@@ -5,6 +5,7 @@ import org.example.entities.psPatLedgers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -28,17 +29,16 @@ public class BonusSystemAddNewPatient {
 
     List<psPatLedgers> payments;
 
-    public void findNewPatient(){
+    public List<psPatLedgers> findNewPatient(){
         try {
-            while (find){
                 timestampStart = Timestamp.valueOf(LocalDateTime.now().minusHours(12));
                 timestampEnd = Timestamp.valueOf(LocalDateTime.now());
                 payments = psPatLedgersDAO.findPayments(timestampStart,timestampEnd,simpleDateFormatAM);
-                addNewPatient();
-            }
+            return payments;
         }catch (Exception e){
             e.printStackTrace();
         }
+        return payments;
     }
 
     public void addNewPatient(){

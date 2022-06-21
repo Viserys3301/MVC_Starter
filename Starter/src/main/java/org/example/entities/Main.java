@@ -23,9 +23,13 @@ public class Main {
         try {
 
 
+
+
             session = factory.getCurrentSession();
             session.getTransaction().begin();
-            BonusDiscount bonusDiscount = session.get(BonusDiscount.class,3L);
+
+
+            BonusDiscount bonusDiscount = session.get(BonusDiscount.class,1L);
             BonusPatient bonusPatient = new BonusPatient();
             bonusPatient.setSum(new BigDecimal(600000));
             bonusPatient.setIsActive(true);
