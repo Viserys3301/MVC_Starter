@@ -83,6 +83,21 @@ public class BonusPatientDAO {
         session.getTransaction().commit();
         return bPatient;
     }
+    public boolean getBollById(Long id){
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        List<BonusPatient> bPatient = session.createQuery("SELECT p FROM BonusPatient p where p.bizboxId =:bbId").setParameter("bbId",id).getResultList();
+        session.getTransaction().commit();
+        if (bPatient.isEmpty()){
+            System.out.println("Тру");
+            return true;
+        }
+        else {
+            System.out.println("Фолс");
+            return false;
+        }
+
+    }
 
     public void update(BonusPatient bPatient){
         session = factory.getCurrentSession();

@@ -1,8 +1,6 @@
 package org.example.controllers;
 
 import org.example.DAO.BonusPatientDAO;
-import org.example.DAO.BonusPatientRepo;
-import org.example.entities.BPatient;
 import org.example.entities.BonusPatient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,12 +24,12 @@ public class BonusSystemController {
     @GetMapping
     public String getAllPatients(Model model){
         model.addAttribute("bonusPatients", bonusPatientDAO.bPatientsGetAll());
-        return "bonus-system-models/index";
+        return "bonus-system-models/patients";
     }
     @GetMapping("/{id}")
     public String StringgetById(Model model, @PathVariable(value = "id") Long id){
         model.addAttribute("patient", bonusPatientDAO.getBuid(id));
-        return "bonus-system-models/patient";
+        return "bonus-system-models/patients";
     }
 
     @PostMapping("/update_patient")
@@ -59,7 +57,7 @@ public class BonusSystemController {
     @GetMapping("/new")
     public String addNewPatient(Model model){
         model.addAttribute("patient",new BonusPatient());
-        return "bonus-system-models/newPatient";
+        return "bonus-system-models/add-new-patient";
     }
 
     @PostMapping("/new_patient")
