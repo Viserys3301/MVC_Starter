@@ -25,6 +25,10 @@ public class BonusTransactionDAO {
     List<BonusTransaction> bonusTransactions;
 
     public List<BonusTransaction> getBonusTransactions(){
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        bonusTransactions = session.createQuery("SELECT t FROM BonusTransaction t").getResultList();
+        session.getTransaction().commit();
         return bonusTransactions;
     }
 

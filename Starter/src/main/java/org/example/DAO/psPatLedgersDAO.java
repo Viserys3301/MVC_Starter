@@ -26,13 +26,42 @@ public class psPatLedgersDAO {
         session = factory.getCurrentSession();
         session.getTransaction().begin();
 
+        System.out.println("SELECT p FROM psPatLedgers p where p.docdate between '"
+                + simpleDateFormat.format(timestampStart) + "' and '"
+                + simpleDateFormat.format(timestampEnd)  + "' and  p.billtrancode =PAYMENT");
+
         payments = session.createQuery("SELECT p FROM psPatLedgers p where p.docdate between '"
                         + simpleDateFormat.format(timestampStart) + "' and '"
                         + simpleDateFormat.format(timestampEnd)  + "' and  p.billtrancode =:pay")
                 .setParameter("pay","PAYMENT").getResultList();
+
+
+
+
         session.getTransaction().commit();
         return payments;
     }
+
+    public List<psPatLedgers> findPaymentsHC(Timestamp timestampStart, Timestamp timestampEnd, SimpleDateFormat simpleDateFormat){
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+
+        System.out.println("SELECT p FROM psPatLedgers p where p.docdate between '"
+                + simpleDateFormat.format(timestampStart) + "' and '"
+                + simpleDateFormat.format(timestampEnd)  + "' and  p.billtrancode =HC");
+
+        payments = session.createQuery("SELECT p FROM psPatLedgers p where p.docdate between '"
+                        + simpleDateFormat.format(timestampStart) + "' and '"
+                        + simpleDateFormat.format(timestampEnd)  + "' and  p.billtrancode =:pay")
+                .setParameter("pay","HC").getResultList();
+
+
+
+
+        session.getTransaction().commit();
+        return payments;
+    }
+
 
     public void update(BigDecimal price,Long id){
         session = factory.getCurrentSession();

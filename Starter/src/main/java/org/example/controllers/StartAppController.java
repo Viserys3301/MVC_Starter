@@ -52,22 +52,22 @@ public class StartAppController {
 //        });
 
 
-//        Thread thread2 = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (ACTIVE){
-//                        bonusSystemUpdatePatient.update();
-//                        System.out.println(atomicLong.incrementAndGet());
-//                    try {
-//                        Thread.sleep(2000);
-//                    } catch (InterruptedException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                }
-//            }
-//        });
+        Thread thread2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (ACTIVE){
+                        bonusSystemUpdatePatient.update();
+                        System.out.println(atomicLong.incrementAndGet());
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
   //      thread.start();
- //       thread2.start();
+       thread2.start();
 
         return "bonus-system-models/patients";
     }
