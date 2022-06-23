@@ -36,20 +36,20 @@ public class StartAppController {
     @GetMapping
     public String start(){
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (ACTIVE){
-                    try {
-                        bonusSystemAddNewPatient.findNewPatient();
-                        System.out.println(atomicLong.incrementAndGet());
-                        Thread.sleep(2000);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-        });
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (ACTIVE){
+//                    try {
+//                        bonusSystemAddNewPatient.findNewPatient();
+//                        System.out.println(atomicLong.incrementAndGet());
+//                        Thread.sleep(2000);
+//                    } catch (Exception e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }
+//            }
+//        });
 
 
 //        Thread thread2 = new Thread(new Runnable() {
@@ -66,7 +66,7 @@ public class StartAppController {
 //                }
 //            }
 //        });
-        thread.start();
+  //      thread.start();
  //       thread2.start();
 
         return "bonus-system-models/patients";

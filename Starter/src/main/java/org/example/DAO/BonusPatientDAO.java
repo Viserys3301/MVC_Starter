@@ -62,6 +62,7 @@ public class BonusPatientDAO {
     SessionFactory factory = new Configuration().configure("database-connection.cfg.xml")
             .addAnnotatedClass(BonusDiscount.class)
             .addAnnotatedClass(BonusPatient.class)
+            .addAnnotatedClass(BonusTransaction.class)
             .buildSessionFactory();
 
     Session session = null;

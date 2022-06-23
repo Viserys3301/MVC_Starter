@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -31,5 +32,13 @@ public class psPatLedgersDAO {
                 .setParameter("pay","PAYMENT").getResultList();
         session.getTransaction().commit();
         return payments;
+    }
+
+    public void update(BigDecimal price,Long id){
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        session.createQuery("UPDATE psPatLedgers p SET p.debit=:price WHERE p.FK_psPatRegisters=:id")
+                        .setParameter("price",price).setParameter("id",id).executeUpdate();
+        session.getTransaction().commit();
     }
 }

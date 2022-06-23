@@ -34,7 +34,7 @@ public class BonusDiscount {
     @Column(name = "bonus_rate")
     private Byte bonusRate;
 
-    @OneToMany(mappedBy = "bonusDiscount")
+    @OneToMany(mappedBy = "bonusDiscount",fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     List<BonusPatient> bonusPatients;
 

@@ -30,7 +30,7 @@ public class BonusSystemAddNewPatient {
     List<psPatLedgers> payments;
     List<BonusDiscount> discounts = null;
     List<BonusPatient> patients;
-    psPatLedgersDAO psPatLedgersDAO;
+    psPatLedgersDAO ps_PatLedgersDAO;
     BonusDiscountDAO bonusDiscountDAO;
 
     BonusPatientDAO bonusPatientDAO;
@@ -44,8 +44,8 @@ public class BonusSystemAddNewPatient {
     }
 
     @Autowired
-    public void setPsPatLedgersDAO(org.example.DAO.psPatLedgersDAO psPatLedgersDAO) {
-        this.psPatLedgersDAO = psPatLedgersDAO;
+    public void setPsPatLedgersDAO(org.example.DAO.psPatLedgersDAO ps_PatLedgersDAO) {
+        this.ps_PatLedgersDAO = ps_PatLedgersDAO;
     }
 
     @Autowired
@@ -57,28 +57,29 @@ public class BonusSystemAddNewPatient {
 
     public List<psPatLedgers> findNewPatient(){
         try {
-                timestampStart = Timestamp.valueOf(LocalDateTime.now().minusHours(12));
+                timestampStart = Timestamp.valueOf(LocalDateTime.now().minusHours(120));
                 timestampEnd = Timestamp.valueOf(LocalDateTime.now());
-                payments = psPatLedgersDAO.findPayments(timestampStart,timestampEnd,simpleDateFormatAM);
+                payments = ps_PatLedgersDAO.findPayments(timestampStart,timestampEnd,simpleDateFormatAM);
             for (psPatLedgers p:payments) {
                 if(bonusPatientDAO.getBollById(Long.valueOf(p.getFK_emdPatients()))){
 
                     discounts = bonusDiscountDAO.findAll();
-                    System.out.println(discounts);
 
-                    for (int i = discounts.size()-1; i <=0 ; i--) {
-                        if (p.getOramount().compareTo(discounts.get(i).getBonusSum())==1){
-                            BonusPatient pat = new BonusPatient();
-                            pat.setIsActive(true);
-                            pat.setBonusDiscount(discounts.get(i));
-                            pat.setSum(new BigDecimal(0));
-                            pat.setName(p.getFK_emdPatients() + "");
-                            pat.setBizboxId(Long.valueOf(p.getFK_emdPatients()));
-                            bonusPatientDAO.add(pat);
-                        }
-                        else {
+                    for (int i = discounts.size()-1; i >=0 ; i--) {
+                        if (bonusPatientDAO.getBollById(Long.valueOf(p.getFK_emdPatients()))){
+                            if (p.getOramount().compareTo(discounts.get(i).getBonusSum()) == 1) {
 
-                        }
+                                BonusPatient pat = new BonusPatient();
+                                pat.setIsActive(true);
+                                pat.setBonusDiscount(discounts.get(i));
+                                pat.setSum(new BigDecimal(0));
+                                pat.setName(p.getFK_emdPatients() + "");
+                                pat.setBizboxId(Long.valueOf(p.getFK_emdPatients()));
+                                bonusPatientDAO.add(pat);
+                            } else {
+
+                            }
+                    }
                     }
                 }
                 else {
@@ -91,10 +92,4 @@ public class BonusSystemAddNewPatient {
         }
         return payments;
     }
-
-    public void check(List<psPatLedgers> payments){
-
-    }
-
-
 }
