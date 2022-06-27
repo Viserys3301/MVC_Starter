@@ -151,5 +151,11 @@ public class BonusPatientDAO {
     }
 
 
-
+    public Long getByBBid(Long id) {
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        BonusPatient patient = (BonusPatient) session.createQuery("SELECT p FROM BonusPatient p where p.bizboxId=:id").setParameter("id",id).getSingleResult();
+        session.getTransaction().commit();
+        return patient.getId();
+    }
 }

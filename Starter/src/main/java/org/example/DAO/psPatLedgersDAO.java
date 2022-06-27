@@ -66,8 +66,8 @@ public class psPatLedgersDAO {
     public void update(BigDecimal price,Long id){
         session = factory.getCurrentSession();
         session.getTransaction().begin();
-        session.createQuery("UPDATE psPatLedgers p SET p.debit=:price WHERE p.FK_psPatRegisters=:id")
-                        .setParameter("price",price).setParameter("id",id).executeUpdate();
+        session.createQuery("UPDATE psPatLedgers p SET p.debit=:price WHERE p.PK_psPatledgers=:id")
+                .setParameter("price",price).setParameter("id",id).executeUpdate();
         session.getTransaction().commit();
     }
 }

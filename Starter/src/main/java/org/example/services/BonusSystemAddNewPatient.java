@@ -2,9 +2,11 @@ package org.example.services;
 
 import org.example.DAO.BonusDiscountDAO;
 import org.example.DAO.BonusPatientDAO;
+import org.example.DAO.BonusTransactionDAO;
 import org.example.DAO.psPatLedgersDAO;
 import org.example.entities.BonusDiscount;
 import org.example.entities.BonusPatient;
+import org.example.entities.BonusTransaction;
 import org.example.entities.psPatLedgers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,6 +36,13 @@ public class BonusSystemAddNewPatient {
     BonusDiscountDAO bonusDiscountDAO;
 
     BonusPatientDAO bonusPatientDAO;
+
+    BonusTransactionDAO bonusTransactionDAO;
+
+    @Autowired
+    public void setBonusTransactionDAO(BonusTransactionDAO bonusTransactionDAO) {
+        this.bonusTransactionDAO = bonusTransactionDAO;
+    }
 
     private BigDecimal bigDecimalSum;
     private Byte discountId;
@@ -76,6 +85,18 @@ public class BonusSystemAddNewPatient {
                                 pat.setName(p.getFK_emdPatients() + "");
                                 pat.setBizboxId(Long.valueOf(p.getFK_emdPatients()));
                                 bonusPatientDAO.add(pat);
+                                System.out.println("save");
+                                BonusTransaction bonusTransaction = new BonusTransaction();
+                                bonusTransaction.setPatientId(bonusPatientDAO.getByBBid((long) p.getFK_emdPatients()));
+                                bonusTransaction.setBBTransID((long)p.getFK_psPatRegisters());
+                                bonusTransaction.setComplete(true);
+                                bonusTransaction.setCanceled(false);
+                                bonusTransaction.setAfter(new BigDecimal(0));
+                                bonusTransaction.setBefore(new BigDecimal(0));
+                                bonusTransaction.setPayment(p.getOramount());
+                                bonusTransaction.setId(2L);
+                                bonusTransaction.setRate(discounts.get(i).getBonusRate());
+                                bonusTransactionDAO.add(bonusTransaction);
                             } else {
 
                             }

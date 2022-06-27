@@ -38,4 +38,19 @@ public class BonusTransactionDAO {
         session.save(transaction);
         session.getTransaction().commit();
     }
+
+    public void save(BonusTransaction bonusTransaction) {
+
+    }
+
+    public boolean getByBbrranst(Long fk_psPatRegisters) {
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        List<BonusTransaction> bonusTransactionCheck = session.createQuery("SELECT b FROM BonusTransaction b WHERE b.BBTransID=:id").setParameter("id",fk_psPatRegisters).getResultList();
+        session.getTransaction().commit();
+        if (bonusTransactionCheck.isEmpty()){
+            return true;
+        }
+        return false;
+    }
 }
