@@ -9,25 +9,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/bonus_system/discount")
+@RequestMapping("/bonus_system/discounts")
 public class BonusSystemDiscount {
 
     BonusDiscountDAO bonusDiscountDAO;
 
     @Autowired
-    public BonusDiscountDAO getBonusDiscountDAO() {
-        return bonusDiscountDAO;
+    public void setBonusDiscountDAO(BonusDiscountDAO bonusDiscountDAO) {
+        this.bonusDiscountDAO = bonusDiscountDAO;
     }
 
     @GetMapping
     public String getAll(Model model){
-        model.addAttribute("discount",bonusDiscountDAO.findAll());
-        return "bonus-system-models/discount/index";
+        model.addAttribute("discounts",bonusDiscountDAO.findAll());
+        return "bonus-system-models/discounts";
     }
 
     @GetMapping("{id}")
     public String getById(Model model, @PathVariable(value = "id") Long id){
         model.addAttribute("discount",bonusDiscountDAO.getById(id));
-        return "bonus-system-models/discount/index";
+        return "bonus-system-models/discounts";
     }
 }

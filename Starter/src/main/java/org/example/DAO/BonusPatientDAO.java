@@ -158,4 +158,12 @@ public class BonusPatientDAO {
         session.getTransaction().commit();
         return patient.getId();
     }
+
+    public void updateSum(BigDecimal newSum,Long id){
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        BonusPatient patientSum = session.get(BonusPatient.class,id);
+        patientSum.setSum(patientSum.getSum().add(newSum));
+        session.getTransaction().commit();
+    }
 }

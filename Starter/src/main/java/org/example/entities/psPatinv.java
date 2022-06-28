@@ -3,9 +3,11 @@ package org.example.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.type.TimestampType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 @Data
@@ -20,7 +22,7 @@ public class psPatinv {
     private Long PK_TRXNO;
 
     @Column(name = "tstamp")
-    private Timestamp tstamp;
+    private Byte[] tstamp;
 
     @Column(name = "ownerID")
     private String ownerID;

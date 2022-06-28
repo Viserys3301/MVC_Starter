@@ -1,16 +1,16 @@
 package org.example.entities;
 
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-        BigDecimal start = new BigDecimal(45000);
-        Byte rated = 7;
-
-        BigDecimal rate = new BigDecimal(rated);
-         start = start.subtract(start.multiply(rate).divide(new BigDecimal(100)));
-        System.out.println( "" + start);
+        System.out.println(	3813.00+ 	2325.00);
     }
 }

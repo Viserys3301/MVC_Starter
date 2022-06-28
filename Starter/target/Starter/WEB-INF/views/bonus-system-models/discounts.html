@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Discounts</title>
+    <style>
+        .btn{
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div >
+    <a th:href="@{/bonus_system/patient}">Пациенты</a>
+    <a th:href="@{/bonus_system/transaction}">Транзакции</a>
+    <a th:href="@{/bonus_system/discounts}">Скидки</a>
+
+    <h1>Пациенты программы лояльности</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Название</th>
+            <th scope="col">Дата создания</th>
+            <th scope="col">Дата изменения</th>
+            <th scope="col">Активационная сумма</th>
+            <th scope="col">Процентный бонус</th>
+            <th scope="col">Активный</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="discount : ${discounts}">
+            <th scope="row" th:text="${discount.id}"></th>
+            <th scope="row"  th:text="${discount.description}"></th>
+            <th scope="row"  th:text="${discount.createDate}"></th>
+            <th scope="row"  th:text="${discount.dateTimeUpdate}"></th>
+            <th scope="row"  th:text="${discount.bonusSum}"></th>
+            <th scope="row"  th:text="${discount.bonusRate}"></th>
+            <th scope="row"  th:text="${discount.isActive}"></th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

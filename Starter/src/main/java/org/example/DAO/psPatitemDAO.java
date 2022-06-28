@@ -22,14 +22,20 @@ public class psPatitemDAO {
 
     List<psPatitem> ps_Patitems;
 
-    public List<psPatitem> getPsPatitems(){
+    public List<psPatitem> getPsPatitems(Integer id){
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        System.out.println(ps_Patitems + "============3============3=============3==============");
+        ps_Patitems = session.createQuery("SELECT p FROM psPatitem p WHERE p.FK_psPatRegisters=:id").setParameter("id",id).getResultList();
+        System.out.println(ps_Patitems + "============4============4=============4==============");
+        session.getTransaction().commit();
         return ps_Patitems;
     }
 
-    public void update(BigDecimal price, Long id){
+    public void update(BigDecimal price, Integer id){
         session = factory.getCurrentSession();
         session.getTransaction().begin();
-        session.createQuery("UPDATE psPatitem p set p.renprice =: id WHERE p.FK_psPatRegisters = : tranId")
+        session.createQuery("UPDATE psPatitem p set p.renprice =: id WHERE p.PK_psPatitem = : tranId")
                 .setParameter("id",price)
                         .setParameter("tranId",id).executeUpdate();
 

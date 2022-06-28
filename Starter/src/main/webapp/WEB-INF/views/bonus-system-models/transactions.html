@@ -1,10 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Transactions</title>
-</head>
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<meta charset="UTF-8">
+<title>Транзакции</title>
+<style>
+    .btn{
+        font-size: 20px;
+    }
+
+
+</style>
 <body>
+<div >
+    <a th:href="@{/bonus_system/patient}">Пациенты</a>
+    <a th:href="@{/bonus_system/transaction}">Транзакции</a>
+    <a th:href="@{/bonus_system/discounts}">Скидки</a>
+
+    <h1>Транзакции программы лояльности</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">ID Пациента</th>
+            <th scope="col">ID Транзакции Bizbox</th>
+            <th scope="col">Сумма до</th>
+            <th scope="col">Сумма после</th>
+            <th scope="col">Отменён</th>
+            <th scope="col">Выполнен</th>
+            <th scope="col">Процент</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="transaction : ${transactions}">
+            <th scope="row" th:text="${transaction.id}"></th>
+            <th scope="row"  th:text="${transaction.patientId}"></th>
+            <th scope="row"  th:text="${transaction.BBTransID}"></th>
+            <th scope="row"  th:text="${transaction.before}"></th>
+            <th scope="row"  th:text="${transaction.after}"></th>
+            <th scope="row"  th:text="${transaction.canceled}"></th>
+            <th scope="row"  th:text="${transaction.complete}"></th>
+            <th scope="row"  th:text="${transaction.rate}"></th>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>

@@ -19,13 +19,20 @@ public class psPatinvDAO {
 
     Session session = null;
 
-    List<psPatinvDAO> ps_Patitems;
+    List<psPatinv> psPatinvList;
 
+    public  List<psPatinv> get(Integer id){
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        psPatinvList = session.createQuery("SELECT p FROM psPatinv p WHERE p.FK_psPatRegisters=:id").setParameter("id",id).getResultList();
+        session.getTransaction().commit();
+        return psPatinvList;
+    }
 
     public void update(BigDecimal price1,BigDecimal price2,Long id){
         session = factory.getCurrentSession();
         session.getTransaction().begin();
-        session.createQuery("UPDATE psPatinv p SET p.renamount=:price1 , p.amount=:price2 WHERE p.FK_psPatRegisters =: id")
+        session.createQuery("UPDATE psPatinv p SET p.renamount=:price1 , p.amount=:price2 WHERE p.PK_TRXNO =: id")
                 .setParameter("price1",price1).setParameter("price2",price2).setParameter("id",id).executeUpdate();
         session.getTransaction().commit();
     }

@@ -1,14 +1,8 @@
 package org.example.services;
 
-import org.example.DAO.BonusPatientDAO;
-import org.example.DAO.BonusTransactionDAO;
-import org.example.DAO.psPatLedgersDAO;
-import org.example.DAO.psPatitemDAO;
+import org.example.DAO.*;
 import org.example.controllers.StartAppController;
-import org.example.entities.BonusPatient;
-import org.example.entities.BonusTransaction;
-import org.example.entities.psPatLedgers;
-import org.example.entities.psPatitem;
+import org.example.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +22,13 @@ public class BonusSystemUpdatePatient {
     BonusTransactionDAO bonusTransactionDAO;
 
     psPatLedgersDAO ps_PatLedgersDAO;
+
+    psPatinvDAO ps_PatinvDAO;
+
+    @Autowired
+    public void setPs_PatinvDAO(psPatinvDAO ps_PatinvDAO) {
+        this.ps_PatinvDAO = ps_PatinvDAO;
+    }
 
     @Autowired
     public void setPs_PatLedgersDAO(psPatLedgersDAO ps_PatLedgersDAO) {
@@ -60,11 +61,14 @@ public class BonusSystemUpdatePatient {
     List<psPatLedgers> sortPsPatitems = new ArrayList<>();
     List<psPatLedgers> newSortPsPatitems = new ArrayList<>();
 
+    List<psPatitem> psPatitemList = new ArrayList<>();
+    List<psPatinv> psPatinvList = new ArrayList<>();
+
     public void update(){
         sortPsPatitems.clear();
         newSortPsPatitems.clear();
 
-        timestampStart = Timestamp.valueOf(LocalDateTime.now().minusHours(120));
+        timestampStart = Timestamp.valueOf(LocalDateTime.now().minusHours(5));
         timestampEnd = Timestamp.valueOf(LocalDateTime.now());
 
 
@@ -93,7 +97,6 @@ public class BonusSystemUpdatePatient {
 
 
     public void updateAndSave(List<psPatLedgers> patientss){
-        System.out.println("====================================================");
         List<BonusPatient> bonusPatientsList;
         bonusPatientsList = bonusPatientDAO.bPatientsGetAll();
         for (psPatLedgers p: patientss) {
@@ -105,13 +108,26 @@ public class BonusSystemUpdatePatient {
                         transaction.setPatientId(bonusPatientsList.get(i).getId());
                         transaction.setPayment(p.getDebit());
                         transaction.setBefore(p.getDebit());
-                        //new BigDecimal(p.getDebit().longValue() - (p.getDebit().longValue() *  bonusPatientsList.get(i).getBonusDiscount().getBonusRate() / 100))
                         ps_PatLedgersDAO.update(formula(p.getDebit(), bonusPatientsList.get(i).getBonusDiscount().getBonusRate()), p.getPK_psPatledgers());
+                        bonusPatientDAO.updateSum(formula(p.getDebit(), bonusPatientsList.get(i).getBonusDiscount().getBonusRate()),bonusPatientsList.get(i).getId());
                         transaction.setAfter(formula(p.getDebit(), bonusPatientsList.get(i).getBonusDiscount().getBonusRate()));
                         transaction.setCanceled(false);
                         transaction.setComplete(true);
                         transaction.setBBTransID((long) p.getFK_psPatRegisters());
                         bonusTransactionDAO.add(transaction);
+
+
+                        psPatitemList = ps_PatitemDAO.getPsPatitems(Math.toIntExact(p.getFK_psPatRegisters()));
+                        for (psPatitem ps:psPatitemList) {
+                            ps_PatitemDAO.update(formula(ps.getRenprice(),bonusPatientsList.get(i).getBonusDiscount().getBonusRate()),ps.getPK_psPatitem());
+                        }
+
+                        psPatinvList = ps_PatinvDAO.get(Math.toIntExact(p.getFK_psPatRegisters()));
+                        for (psPatinv pn:psPatinvList) {
+                            ps_PatinvDAO.update(formula(pn.getRenamount(),bonusPatientsList.get(i).getBonusDiscount().getBonusRate()),
+                                                formula(pn.getAmount(),bonusPatientsList.get(i).getBonusDiscount().getBonusRate()),
+                                                pn.getPK_TRXNO());
+                        }
                     }
                 }
             }
@@ -122,6 +138,7 @@ public class BonusSystemUpdatePatient {
         System.out.println("==============================");
         System.out.println("BONUS RATE " + rated);
         System.out.println("SUM " + start);
+        System.out.println("==============================");
         BigDecimal rate = new BigDecimal(rated);
       return start = start.subtract(start.multiply(rate).divide(new BigDecimal(100)));
     }

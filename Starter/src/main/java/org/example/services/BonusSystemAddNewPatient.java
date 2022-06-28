@@ -66,7 +66,7 @@ public class BonusSystemAddNewPatient {
 
     public List<psPatLedgers> findNewPatient(){
         try {
-                timestampStart = Timestamp.valueOf(LocalDateTime.now().minusHours(120));
+                timestampStart = Timestamp.valueOf(LocalDateTime.now().minusHours(5));
                 timestampEnd = Timestamp.valueOf(LocalDateTime.now());
                 payments = ps_PatLedgersDAO.findPayments(timestampStart,timestampEnd,simpleDateFormatAM);
             for (psPatLedgers p:payments) {

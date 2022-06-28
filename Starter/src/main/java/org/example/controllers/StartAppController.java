@@ -29,8 +29,6 @@ public class StartAppController {
         this.bonusSystemUpdatePatient = bonusSystemUpdatePatient;
     }
 
-    AtomicLong atomicLong = new AtomicLong(0);
-
 
 
     @GetMapping
@@ -42,8 +40,7 @@ public class StartAppController {
                 while (ACTIVE){
                     try {
                         bonusSystemAddNewPatient.findNewPatient();
-                        System.out.println(atomicLong.incrementAndGet());
-                        System.out.printf("THREAD 1=============");
+                        bonusSystemUpdatePatient.update();
                         Thread.sleep(2000);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
@@ -51,26 +48,9 @@ public class StartAppController {
                 }
             }
         });
+        thread.start();
 
 
-        Thread thread2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (ACTIVE){
-                        bonusSystemUpdatePatient.update();
-                    System.out.printf("THREAD 2=============");
-                        System.out.println(atomicLong.incrementAndGet());
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-        });
-
-       thread.start();
-       thread2.start();
 
 
         return "bonus-system-models/patients";
