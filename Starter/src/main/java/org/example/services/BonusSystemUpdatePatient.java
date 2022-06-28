@@ -1,11 +1,10 @@
 package org.example.services;
 
 import org.example.DAO.*;
-import org.example.controllers.StartAppController;
 import org.example.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -16,6 +15,10 @@ import java.util.List;
 
 @Component
 public class BonusSystemUpdatePatient {
+
+    //TODO Добавить поле FK_TRXNO
+    //TODO Добавить проверку по FK_TRXNO
+    //TODO Добавить обновление по FK_TRXNO
 
     BonusPatientDAO bonusPatientDAO;
     psPatitemDAO ps_PatitemDAO;
@@ -87,7 +90,6 @@ public class BonusSystemUpdatePatient {
         for (psPatLedgers p:sortPsPatitems) {
             for (int i = 0; i < bonusTransactions.size(); i++) {
                 if((long)p.getFK_psPatRegisters()!=bonusTransactions.get(i).getBBTransID()){
-
                     newSortPsPatitems.add(p);
                 }
             }
@@ -116,12 +118,10 @@ public class BonusSystemUpdatePatient {
                         transaction.setBBTransID((long) p.getFK_psPatRegisters());
                         bonusTransactionDAO.add(transaction);
 
-
                         psPatitemList = ps_PatitemDAO.getPsPatitems(Math.toIntExact(p.getFK_psPatRegisters()));
                         for (psPatitem ps:psPatitemList) {
                             ps_PatitemDAO.update(formula(ps.getRenprice(),bonusPatientsList.get(i).getBonusDiscount().getBonusRate()),ps.getPK_psPatitem());
                         }
-
                         psPatinvList = ps_PatinvDAO.get(Math.toIntExact(p.getFK_psPatRegisters()));
                         for (psPatinv pn:psPatinvList) {
                             ps_PatinvDAO.update(formula(pn.getRenamount(),bonusPatientsList.get(i).getBonusDiscount().getBonusRate()),
@@ -135,10 +135,6 @@ public class BonusSystemUpdatePatient {
     }
 
     public BigDecimal formula(BigDecimal start,Byte rated){
-        System.out.println("==============================");
-        System.out.println("BONUS RATE " + rated);
-        System.out.println("SUM " + start);
-        System.out.println("==============================");
         BigDecimal rate = new BigDecimal(rated);
       return start = start.subtract(start.multiply(rate).divide(new BigDecimal(100)));
     }
