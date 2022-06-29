@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -26,6 +28,8 @@ public class psPatinvDAO {
         session.getTransaction().begin();
         psPatinvList = session.createQuery("SELECT p FROM psPatinv p WHERE p.FK_psPatRegisters=:id").setParameter("id",id).getResultList();
         session.getTransaction().commit();
+        session.close();
+
         return psPatinvList;
     }
 
@@ -35,5 +39,17 @@ public class psPatinvDAO {
         session.createQuery("UPDATE psPatinv p SET p.renamount=:price1 , p.amount=:price2 WHERE p.PK_TRXNO =: id")
                 .setParameter("price1",price1).setParameter("price2",price2).setParameter("id",id).executeUpdate();
         session.getTransaction().commit();
+        session.close();
+
+    }
+
+    @Transactional
+    public String getNameById(Integer id){
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        psPatinv patient = (psPatinv) session.createQuery("SELECT p FROM psPatinv p WHERE p.FK_emdPatients=:id").setParameter("id",id).getSingleResult();
+        session.getTransaction().commit();
+        session.close();
+        return patient.getPayername();
     }
 }

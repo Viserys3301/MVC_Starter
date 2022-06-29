@@ -9,15 +9,19 @@
         .btn{
             font-size: 20px;
         }
+        .headerText{
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div >
-        <a th:href="@{/bonus_system/patient}">Пациенты</a>
-        <a th:href="@{/bonus_system/transaction}">Транзакции</a>
-        <a th:href="@{/bonus_system/discounts}">Скидки</a>
-
-        <h1>Пациенты программы лояльности</h1>
+        <div class="headerText">
+        <a class="btn btn-primary" th:href="@{/bonus_system/patient}" role="button">Пациенты</a>
+        <a class="btn btn-primary" th:href="@{/bonus_system/transaction}"role="button">Транзакции</a>
+        <a class="btn btn-primary" th:href="@{/bonus_system/discounts}"role="button">Скидки</a>
+        </div>
+        <h1 class="headerText">Пациенты программы лояльности</h1>
         <table class="table">
             <thead>
             <tr>

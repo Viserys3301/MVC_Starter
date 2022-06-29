@@ -9,21 +9,26 @@
         font-size: 20px;
     }
 
-
+    .headerText{
+        text-align: center;
+    }
 </style>
 <body>
 <div >
-    <a th:href="@{/bonus_system/patient}">Пациенты</a>
-    <a th:href="@{/bonus_system/transaction}">Транзакции</a>
-    <a th:href="@{/bonus_system/discounts}">Скидки</a>
+    <div class="headerText">
+    <a class="btn btn-primary" th:href="@{/bonus_system/patient}" role="button">Пациенты</a>
+    <a class="btn btn-primary" th:href="@{/bonus_system/transaction}"role="button">Транзакции</a>
+    <a class="btn btn-primary" th:href="@{/bonus_system/discounts}"role="button">Скидки</a>
+    </div>
 
-    <h1>Транзакции программы лояльности</h1>
+    <h1 class="headerText">Транзакции</h1>
     <table class="table">
         <thead>
         <tr>
             <th scope="col">ID</th>
             <th scope="col">ID Пациента</th>
             <th scope="col">ID Транзакции Bizbox</th>
+            <th scope="col">ID Внутренней транзакции Bizbox</th>
             <th scope="col">Сумма до</th>
             <th scope="col">Сумма после</th>
             <th scope="col">Отменён</th>
@@ -36,6 +41,7 @@
             <th scope="row" th:text="${transaction.id}"></th>
             <th scope="row"  th:text="${transaction.patientId}"></th>
             <th scope="row"  th:text="${transaction.BBTransID}"></th>
+            <th scope="row"  th:text="${transaction.BBTransIDinner}"></th>
             <th scope="row"  th:text="${transaction.before}"></th>
             <th scope="row"  th:text="${transaction.after}"></th>
             <th scope="row"  th:text="${transaction.canceled}"></th>

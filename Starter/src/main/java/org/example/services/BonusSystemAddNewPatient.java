@@ -1,9 +1,6 @@
 package org.example.services;
 
-import org.example.DAO.BonusDiscountDAO;
-import org.example.DAO.BonusPatientDAO;
-import org.example.DAO.BonusTransactionDAO;
-import org.example.DAO.psPatLedgersDAO;
+import org.example.DAO.*;
 import org.example.entities.BonusDiscount;
 import org.example.entities.BonusPatient;
 import org.example.entities.BonusTransaction;
@@ -38,6 +35,15 @@ public class BonusSystemAddNewPatient {
     BonusPatientDAO bonusPatientDAO;
 
     BonusTransactionDAO bonusTransactionDAO;
+
+
+    psPatinvDAO ps_PatinvDAO;
+    @Autowired
+    public void setPs_PatinvDAO(psPatinvDAO ps_PatinvDAO) {
+        this.ps_PatinvDAO = ps_PatinvDAO;
+    }
+
+
 
     @Autowired
     public void setBonusTransactionDAO(BonusTransactionDAO bonusTransactionDAO) {
@@ -82,14 +88,16 @@ public class BonusSystemAddNewPatient {
                                 pat.setIsActive(true);
                                 pat.setBonusDiscount(discounts.get(i));
                                 pat.setSum(new BigDecimal(0));
-                                pat.setName(p.getFK_emdPatients() + "");
+                                pat.setName(ps_PatinvDAO.getNameById(p.getFK_emdPatients()));
                                 pat.setBizboxId(Long.valueOf(p.getFK_emdPatients()));
                                 bonusPatientDAO.add(pat);
-                                System.out.println("save");
                                 BonusTransaction bonusTransaction = new BonusTransaction();
                                 bonusTransaction.setPatientId(bonusPatientDAO.getByBBid((long) p.getFK_emdPatients()));
                                 bonusTransaction.setBBTransID((long)p.getFK_psPatRegisters());
                                 bonusTransaction.setComplete(true);
+
+                                bonusTransaction.setBBTransIDinner(ps_PatLedgersDAO.findByIdAndFlag(p.getFK_psPatRegisters(),"HC"));
+
                                 bonusTransaction.setCanceled(false);
                                 bonusTransaction.setAfter(new BigDecimal(0));
                                 bonusTransaction.setBefore(new BigDecimal(0));

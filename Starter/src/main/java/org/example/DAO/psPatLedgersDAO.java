@@ -70,4 +70,16 @@ public class psPatLedgersDAO {
                 .setParameter("price",price).setParameter("id",id).executeUpdate();
         session.getTransaction().commit();
     }
+
+    public Long findByIdAndFlag(Integer id,String flag){
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        psPatLedgers psl = (psPatLedgers) session.createQuery("SELECT p FROM psPatLedgers p where p.FK_psPatRegisters=:id AND p.billtrancode=:flag")
+                .setParameter("id",id)
+                .setParameter("flag",flag).getSingleResult();
+        session.getTransaction().commit();
+
+        return psl.getFK_TRXNO();
+    }
+
 }

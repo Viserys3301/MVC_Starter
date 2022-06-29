@@ -41,6 +41,9 @@ public class BonusTransaction {
 
     @Column(name = "canceled")
     private Boolean canceled;
+
+    @Column(name = "b_b_trans_id_inner")
+    private Long BBTransIDinner;
 }
 
 
