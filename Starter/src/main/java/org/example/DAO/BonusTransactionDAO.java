@@ -54,4 +54,11 @@ public class BonusTransactionDAO {
         }
         return false;
     }
+
+    public void refresh(BonusTransaction transaction) {
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        session.refresh(transaction);
+        session.getTransaction().commit();
+    }
 }

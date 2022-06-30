@@ -23,7 +23,7 @@ public class BonusSystemController {
 
     @GetMapping
     public String getAllPatients(Model model){
-        model.addAttribute("bonusPatients", bonusPatientDAO.bPatientsGetAll());
+        model.addAttribute("bonusPatients", bonusPatientDAO.bPatientsGetAllWitchFalse());
         return "bonus-system-models/patients";
     }
     @GetMapping("/{id}")

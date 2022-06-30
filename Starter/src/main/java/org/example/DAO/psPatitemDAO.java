@@ -22,11 +22,11 @@ public class psPatitemDAO {
 
     List<psPatitem> ps_Patitems;
 
-    public List<psPatitem> getPsPatitems(Integer id){
+    public List<psPatitem> getPsPatitems(Long id ){
         session = factory.getCurrentSession();
         session.getTransaction().begin();
         System.out.println(ps_Patitems + "============3============3=============3==============");
-        ps_Patitems = session.createQuery("SELECT p FROM psPatitem p WHERE p.FK_psPatRegisters=:id").setParameter("id",id).getResultList();
+        ps_Patitems = session.createQuery("SELECT p FROM psPatitem p WHERE p.FK_TRXNO =:id").setParameter("id",id).getResultList();
         System.out.println(ps_Patitems + "============4============4=============4==============");
         session.getTransaction().commit();
         return ps_Patitems;

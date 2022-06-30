@@ -72,7 +72,7 @@ public class BonusSystemAddNewPatient {
 
     public List<psPatLedgers> findNewPatient(){
         try {
-                timestampStart = Timestamp.valueOf(LocalDateTime.now().minusHours(5));
+                timestampStart = Timestamp.valueOf(LocalDateTime.now().minusMinutes(10));
                 timestampEnd = Timestamp.valueOf(LocalDateTime.now());
                 payments = ps_PatLedgersDAO.findPayments(timestampStart,timestampEnd,simpleDateFormatAM);
             for (psPatLedgers p:payments) {
@@ -88,7 +88,7 @@ public class BonusSystemAddNewPatient {
                                 pat.setIsActive(true);
                                 pat.setBonusDiscount(discounts.get(i));
                                 pat.setSum(new BigDecimal(0));
-                                pat.setName(ps_PatinvDAO.getNameById(p.getFK_emdPatients()));
+                                pat.setName(ps_PatinvDAO.getNameById(p.getFK_emdPatients(),p.getFK_psPatRegisters()));
                                 pat.setBizboxId(Long.valueOf(p.getFK_emdPatients()));
                                 bonusPatientDAO.add(pat);
                                 BonusTransaction bonusTransaction = new BonusTransaction();

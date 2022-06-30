@@ -68,15 +68,19 @@ public class BonusPatientDAO {
     Session session = null;
 
     List<BonusPatient> bPatients;
+    List<BonusPatient> bPatientsWitchFalse;
 
 
     public List<BonusPatient> bPatientsGetAll(){
         session = factory.getCurrentSession();
         session.getTransaction().begin();
-        bPatients = session.createQuery("SELECT b FROM BonusPatient b").getResultList();
+        bPatients = session.createQuery("SELECT b FROM BonusPatient b WHERE b.isActive=true").getResultList();
         session.getTransaction().commit();
         return bPatients;
     }
+
+
+
     public BonusPatient getBuid(Long id){
         session = factory.getCurrentSession();
         session.getTransaction().begin();
@@ -165,5 +169,22 @@ public class BonusPatientDAO {
         BonusPatient patientSum = session.get(BonusPatient.class,id);
         patientSum.setSum(patientSum.getSum().add(newSum));
         session.getTransaction().commit();
+    }
+
+    public void updateRate(BonusDiscount discount, Long id) {
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        BonusPatient bp = session.get(BonusPatient.class,id);
+        bp.setBonusDiscount(discount);
+        bp.setSum(new BigDecimal(0));
+        session.getTransaction().commit();
+    }
+
+    public List<BonusPatient> bPatientsGetAllWitchFalse() {
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        bPatientsWitchFalse = session.createQuery("SELECT b FROM BonusPatient b").getResultList();
+        session.getTransaction().commit();
+        return bPatientsWitchFalse;
     }
 }

@@ -1,6 +1,9 @@
 package org.example.DAO;
 
-import org.example.entities.psPatRegisters;
+import org.example.entities.BonusDiscount;
+import org.example.entities.BonusPatient;
+import org.example.entities.BonusTransaction;
+import org.example.entities.ProhibitedService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -8,23 +11,24 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class psPatRegistersDAO {
+public class ProhibitedServiceDAO {
+
 
     SessionFactory factory = new Configuration().configure("database-connection.cfg.xml")
-            .addAnnotatedClass(psPatRegisters.class)
+            .addAnnotatedClass(ProhibitedService.class)
             .buildSessionFactory();
 
     Session session = null;
 
-    public Boolean getById(Integer id){
+    public Boolean getByServiceId(Long id){
         session = factory.getCurrentSession();
         session.getTransaction().begin();
-        psPatRegisters ps = session.get(psPatRegisters.class,id);
+        ProhibitedService service = session.get(ProhibitedService.class,id);
         session.getTransaction().commit();
-
-        if(ps==null){
+        if (service==null){
             return true;
         }
         return false;
     }
+
 }

@@ -1,7 +1,6 @@
 package org.example.services;
 
 import org.example.DAO.*;
-import org.example.controllers.StartAppController;
 import org.example.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +16,8 @@ import java.util.List;
 @Component
 public class BonusSystemUpdatePatient {
 
-    //TODO Добавить проверку по FK_TRXNO
+    //TODO Отключение по истечению года
+    //TODO Анализы которые не входят
 
     BonusPatientDAO bonusPatientDAO;
     psPatitemDAO ps_PatitemDAO;
@@ -60,20 +60,36 @@ public class BonusSystemUpdatePatient {
     List<psPatLedgers> ps_Patitems;
     List<BonusTransaction> bonusTransactions;
 
+    List<BonusDiscount> bonusDiscounts;
+
     List<psPatLedgers> sortPsPatitems = new ArrayList<>();
     List<psPatLedgers> newSortPsPatitems = new ArrayList<>();
+    List<psPatLedgers> finalPsPatitems = new ArrayList<>();
 
     List<psPatitem> psPatitemList = new ArrayList<>();
     List<psPatinv> psPatinvList = new ArrayList<>();
+
+    BonusDiscountDAO bonusDiscountDAO;
+
+    psPatRegistersDAO ps_PatRegistersDAO;
+
+    @Autowired
+    public void setPs_PatRegistersDAO(psPatRegistersDAO ps_PatRegistersDAO) {
+        this.ps_PatRegistersDAO = ps_PatRegistersDAO;
+    }
+
+    @Autowired
+    public void setBonusDiscountDAO(BonusDiscountDAO bonusDiscountDAO) {
+        this.bonusDiscountDAO = bonusDiscountDAO;
+    }
 
     public void update(){
 
         sortPsPatitems.clear();
         newSortPsPatitems.clear();
 
-        timestampStart = Timestamp.valueOf(LocalDateTime.now().minusHours(5));
+        timestampStart = Timestamp.valueOf(LocalDateTime.now().minusMinutes(10));
         timestampEnd = Timestamp.valueOf(LocalDateTime.now());
-
 
         bonusPatients = bonusPatientDAO.bPatientsGetAll();
         ps_Patitems = ps_PatLedgersDAO.findPaymentsHC(timestampStart,timestampEnd,simpleDateFormatAM);
@@ -87,8 +103,6 @@ public class BonusSystemUpdatePatient {
             }
         }
 
-
-
         for (psPatLedgers p:sortPsPatitems) {
             for (int i = 0; i < bonusTransactions.size(); i++) {
                 if(p.getFK_TRXNO()!=bonusTransactions.get(i).getBBTransIDinner() && (long)p.getFK_psPatRegisters()!=bonusTransactions.get(i).getBBTransID()){
@@ -97,13 +111,23 @@ public class BonusSystemUpdatePatient {
             }
         }
 
-
-        for (psPatLedgers p :newSortPsPatitems) {
-            System.out.println(p.getFK_TRXNO());
+        for (psPatLedgers p:newSortPsPatitems) {
+            if(ps_PatRegistersDAO.getById(p.getFK_psPatRegisters())){
+                finalPsPatitems.add(p);
+            }
         }
 
+        updateAndSave(finalPsPatitems);
+        bonusPatients = bonusPatientDAO.bPatientsGetAll();
+        bonusDiscounts = bonusDiscountDAO.findAll();
 
-        updateAndSave(newSortPsPatitems);
+        for (BonusPatient b: bonusPatients) {
+            for (int i = 0; i <bonusDiscounts.size() ; i++) {
+                if (b.getSum().compareTo(bonusDiscounts.get(i).getBonusSum())==1){
+                    bonusPatientDAO.updateRate(bonusDiscounts.get(i),b.getId());
+                }
+            }
+        }
         System.out.println("==============================================================================================================");
         System.out.println("====================================================END THREAD================================================");
         System.out.println("==============================================================================================================");
@@ -113,6 +137,7 @@ public class BonusSystemUpdatePatient {
     public void updateAndSave(List<psPatLedgers> patientss){
         List<BonusPatient> bonusPatientsList;
         bonusPatientsList = bonusPatientDAO.bPatientsGetAll();
+
         for (psPatLedgers p: patientss) {
             for (int i = 0; i <bonusPatientsList.size() ; i++) {
                 if((long)p.getFK_emdPatients()==bonusPatientsList.get(i).getBizboxId()){
@@ -133,17 +158,21 @@ public class BonusSystemUpdatePatient {
                         transaction.setBBTransID((long) p.getFK_psPatRegisters());
                         bonusTransactionDAO.add(transaction);
 
-                        psPatitemList = ps_PatitemDAO.getPsPatitems(Math.toIntExact(p.getFK_psPatRegisters()));
+                        psPatitemList = ps_PatitemDAO.getPsPatitems(p.getFK_TRXNO());
+
                         for (psPatitem ps:psPatitemList) {
                             ps_PatitemDAO.update(formula(ps.getRenprice(),bonusPatientsList.get(i).getBonusDiscount().getBonusRate()),ps.getPK_psPatitem());
                         }
 
-                        psPatinvList = ps_PatinvDAO.get(Math.toIntExact(p.getFK_psPatRegisters()));
+                        psPatinvList = ps_PatinvDAO.get(p.getFK_TRXNO());
                         for (psPatinv pn:psPatinvList) {
                             ps_PatinvDAO.update(formula(pn.getRenamount(),bonusPatientsList.get(i).getBonusDiscount().getBonusRate()),
                                                 formula(pn.getAmount(),bonusPatientsList.get(i).getBonusDiscount().getBonusRate()),
+                                                formula(pn.getNetamount(),bonusPatientsList.get(i).getBonusDiscount().getBonusRate()),
                                                 pn.getPK_TRXNO());
                         }
+
+                        bonusTransactionDAO.refresh(transaction);
                     }
                 }
             }

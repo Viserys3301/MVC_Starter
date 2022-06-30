@@ -23,31 +23,39 @@ public class psPatinvDAO {
 
     List<psPatinv> psPatinvList;
 
-    public  List<psPatinv> get(Integer id){
+    public  List<psPatinv> get(Long id){
         session = factory.getCurrentSession();
         session.getTransaction().begin();
-        psPatinvList = session.createQuery("SELECT p FROM psPatinv p WHERE p.FK_psPatRegisters=:id").setParameter("id",id).getResultList();
+        psPatinvList = session.createQuery("SELECT p FROM psPatinv p WHERE p.PK_TRXNO=:id").setParameter("id",id).getResultList();
         session.getTransaction().commit();
         session.close();
 
         return psPatinvList;
     }
 
-    public void update(BigDecimal price1,BigDecimal price2,Long id){
+    public void update(BigDecimal price1,BigDecimal price2,BigDecimal price3,Long id){
         session = factory.getCurrentSession();
         session.getTransaction().begin();
-        session.createQuery("UPDATE psPatinv p SET p.renamount=:price1 , p.amount=:price2 WHERE p.PK_TRXNO =: id")
-                .setParameter("price1",price1).setParameter("price2",price2).setParameter("id",id).executeUpdate();
+        session.createQuery("UPDATE psPatinv p SET p.renamount=:price1 , p.amount=:price2,p.netamount=:price3 WHERE p.PK_TRXNO =: id")
+                .setParameter("price1",price1)
+                .setParameter("price2",price2)
+                .setParameter("price3",price3)
+                .setParameter("id",id).executeUpdate();
+
         session.getTransaction().commit();
         session.close();
 
     }
 
     @Transactional
-    public String getNameById(Integer id){
+    public String getNameById(Integer id,Integer psPatReg){
         session = factory.getCurrentSession();
         session.getTransaction().begin();
-        psPatinv patient = (psPatinv) session.createQuery("SELECT p FROM psPatinv p WHERE p.FK_emdPatients=:id").setParameter("id",id).getSingleResult();
+        System.out.println(id);
+        psPatinv patient = (psPatinv) session.createQuery("SELECT p FROM psPatinv p WHERE p.FK_emdPatients=:id AND p.FK_psPatRegisters=:psPatReg")
+                                                        .setParameter("id",id)
+                                                        .setParameter("psPatReg",psPatReg)
+                                                        .getSingleResult();
         session.getTransaction().commit();
         session.close();
         return patient.getPayername();
