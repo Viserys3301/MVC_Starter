@@ -36,7 +36,7 @@ public class BonusSystemController {
     @GetMapping("/{id}")
     public String StringgetById(Model model, @PathVariable(value = "id") Long id){
         model.addAttribute("patient", bonusPatientDAO.getBuid(id));
-        model.addAttribute("discounts",bonusDiscountDAO.findAll());
+        model.addAttribute("discounts",bonusDiscountDAO.findAllTrue());
         return "bonus-system-models/patient";
     }
 
@@ -65,7 +65,7 @@ public class BonusSystemController {
     @GetMapping("/new")
     public String addNewPatient(Model model){
         model.addAttribute("patient",new BonusPatient());
-        model.addAttribute("discounts",bonusDiscountDAO.findAll());
+        model.addAttribute("discounts",bonusDiscountDAO.findAllTrue());
         return "bonus-system-models/add-new-patient";
     }
 

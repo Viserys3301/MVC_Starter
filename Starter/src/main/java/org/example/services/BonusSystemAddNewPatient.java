@@ -78,7 +78,7 @@ public class BonusSystemAddNewPatient {
             for (psPatLedgers p:payments) {
                 if(bonusPatientDAO.getBollById(Long.valueOf(p.getFK_emdPatients()))){
 
-                    discounts = bonusDiscountDAO.findAll();
+                    discounts = bonusDiscountDAO.findAllTrue();
 
                     for (int i = discounts.size()-1; i >=0 ; i--) {
                         if (bonusPatientDAO.getBollById(Long.valueOf(p.getFK_emdPatients()))){

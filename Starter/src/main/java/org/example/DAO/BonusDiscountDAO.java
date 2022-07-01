@@ -31,6 +31,14 @@ public class BonusDiscountDAO {
         return bonusDiscounts;
     }
 
+    public List<BonusDiscount> findAllTrue(){
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        bonusDiscounts = session.createQuery("SELECT d FROM BonusDiscount d WHERE d.isActive=true ").getResultList();
+        session.getTransaction().commit();
+        return bonusDiscounts;
+    }
+
     public BonusDiscount getById(Long id){
         session = factory.getCurrentSession();
         session.getTransaction().begin();
