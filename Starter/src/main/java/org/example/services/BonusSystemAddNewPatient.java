@@ -92,7 +92,7 @@ public class BonusSystemAddNewPatient {
                                 pat.setBizboxId(Long.valueOf(p.getFK_emdPatients()));
                                 bonusPatientDAO.add(pat);
                                 BonusTransaction bonusTransaction = new BonusTransaction();
-                                bonusTransaction.setPatientId(bonusPatientDAO.getByBBid((long) p.getFK_emdPatients()));
+                                bonusTransaction.setPatientId(bonusPatientDAO.getByBid((long) p.getFK_emdPatients()));
                                 bonusTransaction.setBBTransID((long)p.getFK_psPatRegisters());
                                 bonusTransaction.setComplete(true);
 

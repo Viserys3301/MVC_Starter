@@ -146,7 +146,7 @@ public class BonusSystemUpdatePatient {
 
                         BonusTransaction transaction = new BonusTransaction();
                         transaction.setRate(bonusPatientsList.get(i).getBonusDiscount().getBonusRate());
-                        transaction.setPatientId(bonusPatientsList.get(i).getId());
+                        transaction.setPatientId(bonusPatientsList.get(i));
                         transaction.setPayment(p.getDebit());
                         transaction.setBefore(p.getDebit());
                         transaction.setBBTransIDinner(p.getFK_TRXNO());

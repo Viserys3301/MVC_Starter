@@ -108,7 +108,7 @@ public class BonusPatientDAO {
         session = factory.getCurrentSession();
         session.getTransaction().begin();
         BonusPatient bPatientik = session.get(BonusPatient.class,bPatient.getId());
-        bPatientik.setName(bPatient.getName());
+        bPatientik.setBonusDiscount(bPatient.getBonusDiscount());
         bPatientik.setSum(bPatient.getSum());
         session.getTransaction().commit();
     }
@@ -161,6 +161,14 @@ public class BonusPatientDAO {
         BonusPatient patient = (BonusPatient) session.createQuery("SELECT p FROM BonusPatient p where p.bizboxId=:id").setParameter("id",id).getSingleResult();
         session.getTransaction().commit();
         return patient.getId();
+    }
+
+    public BonusPatient getByBid(Long id) {
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        BonusPatient patient = (BonusPatient) session.createQuery("SELECT p FROM BonusPatient p where p.bizboxId=:id").setParameter("id",id).getSingleResult();
+        session.getTransaction().commit();
+        return patient;
     }
 
     public void updateSum(BigDecimal newSum,Long id){

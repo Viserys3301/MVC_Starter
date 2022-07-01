@@ -39,7 +39,7 @@
         <tbody>
         <tr th:each="transaction : ${transactions}">
             <th scope="row" th:text="${transaction.id}"></th>
-            <th scope="row"  th:text="${transaction.patientId}"></th>
+            <th scope="row"  th:text="${transaction.patientId.id}"></th>
             <th scope="row"  th:text="${transaction.BBTransID}"></th>
             <th scope="row"  th:text="${transaction.BBTransIDinner}"></th>
             <th scope="row"  th:text="${transaction.before}"></th>

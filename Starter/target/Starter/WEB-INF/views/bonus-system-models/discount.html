@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Изменение пациента</title>
+    <title>Изменение скидки</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
     <style>
@@ -56,26 +56,21 @@
 
 </head>
 <body>
-  <div class="fr">
+<div class="fr">
 
-    <form th:action="@{update_patient}" th:method="post" th:object="${patient}">
+    <form th:action="@{update_discount}" th:method="post" th:object="${discount}">
         <input type="hidden" th:field="*{id}">
-        <h2 >Имя</h2> <br>
-        <h3 class="textColor" th:text="*{name}"></h3> <br>
+        <h2 >Название</h2> <br>
+        <input type="text" th:field="*{description}">
         <hr>
         <h2>Сумма</h2> <br>
-        <input type="text" th:field="*{sum}">
-
-
+        <input type="text" th:field="*{bonusSum}">
         <hr>
-        <h1>Уровень</h1> <br>
-        <select  class="classic" th:field="*{bonusDiscount.id}">
-            <option th:each="discount : ${discounts}" th:value="${discount.id}" th:text="${discount.description}"></option>
-        </select>
+        <h2>Процентный бонус</h2> <br>
+        <input type="text" th:field="*{bonusRate}">
         <hr>
         <button id="btn1" type="submit" class="btn btn-primary">Сохранить</button>
     </form>
-  </div>
-
+</div>
 </body>
 </html>

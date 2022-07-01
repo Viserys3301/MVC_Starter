@@ -32,6 +32,46 @@ public class BonusDiscountDAO {
     }
 
     public BonusDiscount getById(Long id){
-        return new BonusDiscount();
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        BonusDiscount disc = session.get(BonusDiscount.class,id);
+        session.getTransaction().commit();
+        return disc;
+    }
+
+    public void decline(Long id) {
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        BonusDiscount discount = session.get(BonusDiscount.class,id);
+        discount.setIsActive(false);
+        session.getTransaction().commit();
+    }
+
+    public void include(Long id) {
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        BonusDiscount discount = session.get(BonusDiscount.class,id);
+        discount.setIsActive(true);
+        session.getTransaction().commit();
+    }
+
+    public void update(BonusDiscount discount) {
+            session = factory.getCurrentSession();
+            session.getTransaction().begin();
+            BonusDiscount disc = session.get(BonusDiscount.class,discount.getId());
+            disc.setDescription(discount.getDescription());
+            disc.setBonusRate(discount.getBonusRate());
+            disc.setBonusSum(discount.getBonusSum());
+            disc.setIsActive(true);
+            session.getTransaction().commit();
+
+    }
+
+    public void add(BonusDiscount discount) {
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        discount.setIsActive(true);
+        session.save(discount);
+        session.getTransaction().commit();
     }
 }

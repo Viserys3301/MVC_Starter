@@ -1,5 +1,6 @@
 package org.example.controllers;
 
+import org.example.DAO.BonusDiscountDAO;
 import org.example.DAO.BonusPatientDAO;
 import org.example.entities.BonusPatient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BonusSystemController {
 
     BonusPatientDAO bonusPatientDAO;
+    BonusDiscountDAO bonusDiscountDAO;
+
+    @Autowired
+    public void setBonusDiscountDAO(BonusDiscountDAO bonusDiscountDAO) {
+        this.bonusDiscountDAO = bonusDiscountDAO;
+    }
 
     @Autowired
     public void setBonusPatientDAO(BonusPatientDAO bonusPatientDAO) {
@@ -29,7 +36,8 @@ public class BonusSystemController {
     @GetMapping("/{id}")
     public String StringgetById(Model model, @PathVariable(value = "id") Long id){
         model.addAttribute("patient", bonusPatientDAO.getBuid(id));
-        return "bonus-system-models/patients";
+        model.addAttribute("discounts",bonusDiscountDAO.findAll());
+        return "bonus-system-models/patient";
     }
 
     @PostMapping("/update_patient")
@@ -57,6 +65,7 @@ public class BonusSystemController {
     @GetMapping("/new")
     public String addNewPatient(Model model){
         model.addAttribute("patient",new BonusPatient());
+        model.addAttribute("discounts",bonusDiscountDAO.findAll());
         return "bonus-system-models/add-new-patient";
     }
 

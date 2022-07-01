@@ -4,7 +4,7 @@
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <title>Discounts</title>
+    <title>Скидки</title>
     <style>
         .btn{
             font-size: 20px;
@@ -33,7 +33,7 @@
             <th scope="col">Активационная сумма</th>
             <th scope="col">Процентный бонус</th>
             <th scope="col">Активный</th>
-            <th scope="col"></th>
+            <th scope="col"><a class="btn btn-success" th:href="@{/bonus_system/discounts/new}" role="button">Добавить</a></th>
         </tr>
         </thead>
         <tbody>
@@ -45,6 +45,11 @@
             <th scope="row"  th:text="${discount.bonusSum}"></th>
             <th scope="row"  th:text="${discount.bonusRate}"></th>
             <th scope="row"  th:text="${discount.isActive}"></th>
+            <td>
+                <a class="btn btn-warning" th:href="@{/bonus_system/discounts/{id} (id = ${discount.id})}" role="button">Изменить</a>
+                <a class="btn btn-secondary" th:href="@{/bonus_system/discounts/decline/{id} (id = ${discount.id})}" role="button">Отключить</a>
+                <a class="btn btn-success" th:href="@{/bonus_system/discounts/include/{id} (id = ${discount.id})}" role="button">Включить</a>
+            </td>
         </tr>
         </tbody>
     </table>

@@ -61,4 +61,13 @@ public class BonusTransactionDAO {
         session.refresh(transaction);
         session.getTransaction().commit();
     }
+
+    public List<BonusTransaction> getBonusTransactionsTop30() {
+        List<BonusTransaction> top30;
+        session = factory.getCurrentSession();
+        session.getTransaction().begin();
+        top30 = session.createQuery("SELECT t FROM BonusTransaction t").getResultList();
+        session.getTransaction().commit();
+        return top30;
+    }
 }

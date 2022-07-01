@@ -3,12 +3,14 @@ package org.example.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -44,4 +46,8 @@ public class BonusPatient {
 
     @Column(name = "is_aCtive")
     private Boolean isActive;
+
+    @OneToMany(mappedBy = "patientId",fetch = FetchType.EAGER)
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+    List<BonusTransaction> bonusTransactions;
 }

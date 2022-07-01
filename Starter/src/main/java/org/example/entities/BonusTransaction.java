@@ -18,8 +18,9 @@ public class BonusTransaction {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "patient_id")
-    private Long patientId;
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private BonusPatient patientId;
 
     @Column(name = "b_b_trans_id")
     private Long BBTransID;

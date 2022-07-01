@@ -19,7 +19,7 @@ public class BonusSystemTransaction {
 
     @GetMapping
     public String getAllTransactions(Model model){
-        model.addAttribute("transactions",bonusTransactionDAO.getBonusTransactions());
+        model.addAttribute("transactions",bonusTransactionDAO.getBonusTransactionsTop30());
         return "bonus-system-models/transactions";
     }
 }
